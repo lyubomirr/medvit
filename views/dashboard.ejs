@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+    <meta charset="utf-8">
+    <title>Medvit - Medcial software for doctors, nurses, students and patients. |</title>
+    <meta name="description" content="">
+    <meta name="author" content="Antoan Dimitrov and Lyubomir Ruzhinski">
+    <!-- Mobile Specific Metas
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- FONTS
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <!-- CSS
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/media-queries.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.16/css/perfect-scrollbar.min.css" />
+    <!-- Favicon
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+</head>
+
+<body>
+    <!-- Primary Page Layout
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <div class="sidebar">
+        <div class="logo">
+            <a href="/"><img src='/images/logo.png' id="logo-img" /></a>
+        </div>
+        <ul class="menu">
+            <li class="active"><a href="/dashboard"><i class="fa fa-bar-chart" aria-hidden="true"></i>НАЧАЛО</a></li>
+            <li>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>ПАЦИЕНТИ
+                    </a>
+
+                    <div class="dropdown-menu" id="patients-dropdown" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="/patient/add-new"><i class="fa fa-plus" aria-hidden="true"></i>Добави нов</a>
+                        <a class="dropdown-item" href="/patient/admitted"><i class="fa fa-hospital-o" aria-hidden="true"></i>Приети пациенти</a>
+                        <a class="dropdown-item" href="/patient/other"><i class="fa fa-ambulance" aria-hidden="true"></i>Други пациенти</a>
+                        <a class="dropdown-item" href="/patient"><i class="fa fa-users" aria-hidden="true"></i>Всички пациенти</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                        <i class="fa fa-handshake-o" aria-hidden="true"></i>НАЗНАЧЕНИЯ
+                    </a>
+
+                    <div class="dropdown-menu" id="appointments-dropdown" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="/appointment/pending"><i class="fa fa-plus-circle" aria-hidden="true"></i>Предстоящи</a>
+                        <a class="dropdown-item" href="/appointment/completed"><i class="fa fa-check" aria-hidden="true"></i>Отминали</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                        <i class="fa fa-hospital-o" aria-hidden="true"></i>ИЗСЛЕДВАНИЯ
+                    </a>
+
+                    <div class="dropdown-menu" id="labs-dropdown" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="/lab/pending"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Незавършени</a>
+                        <a class="dropdown-item" href="/lab/completed"><i class="fa fa-check-square-o" aria-hidden="true"></i>Завършени</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                        <i class="fa fa-universal-access" aria-hidden="true"></i>РЕНГТЕН
+                    </a>
+
+                    <div class="dropdown-menu" id="labs-dropdown" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="/imaging/pending"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Незавършени</a>
+                        <a class="dropdown-item" href="/imaging/completed"><i class="fa fa-check-square-o" aria-hidden="true"></i>Завършени</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user-md" aria-hidden="true"></i>ПЕРСОНАЛ
+                    </a>
+
+                    <div class="dropdown-menu" id="patients-dropdown" aria-labelledby="dropdownMenuLink">
+                        <% if(user.employee.role == "administrator") { %>
+                            <a class="dropdown-item" href="/employee/add-new"><i class="fa fa-plus" aria-hidden="true"></i>Добави нов</a>
+                            <% } %>
+                                <a class="dropdown-item" href="/employee"><i class="fa fa-users" aria-hidden="true"></i>Всички</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="dashboard">
+        <% include bar.ejs %>
+            <div class="panels">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-3 dashboard-card">
+                            <div class="card" id="patients-card">
+                                <div class="header">
+                                    <h4 class="title">Пациенти</h4>
+                                    <p class="category">Пациенти</p>
+                                    <hr>
+                                </div>
+                                <div class="content dashboard-list">
+                                    <p><i class="fa fa-hospital-o" aria-hidden="true"></i> Хоспитализирани: <a href='/patient/admitted'><span class='value'><%=patientsAdmitted%></span></a></p>
+                                    <p><i class="fa fa-ambulance" aria-hidden="true"></i> Други: <a href='/patient/other'><span class='value'><%=patientsOther%></span></a></p>
+
+                                    <div class="footer">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 dashboard-card">
+                            <div class="card" id="labs-card">
+                                <div class="header">
+                                    <h4 class="title">Изследвания</h4>
+                                    <p class="category">Изследвания</p>
+                                    <hr>
+                                </div>
+                                <div class="content dashboard-list">
+                                    <p><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Неизвършени: <a href="/lab/pending?requested_by=<%=user.id%>"><span class='value'><%=labsPending%></span></a></p>
+                                    <p><i class="fa fa-check-square-o" aria-hidden="true"></i> Извършени: <a href="/lab/completed?requested_by=<%=user.id%>"><span class='value'><%=labsCompleted%></span></a></p>
+
+                                    <div class="footer">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 dashboard-card">
+                            <div class="card" id="imaging-card">
+                                <div class="header">
+                                    <h4 class="title">Ренгтен</h4>
+                                    <p class="category">Ренгтен</p>
+                                    <hr>
+                                </div>
+                                <div class="content dashboard-list">
+                                    <p><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Неизвършени: <a href="/imaging/pending?requested_by=<%=user.id%>"><span class='value'><%=imagingsPending%></span></a></p>
+                                    <p><i class="fa fa-check-square-o" aria-hidden="true"></i> Извършени: <a href="/imaging/completed?requested_by=<%=user.id%>"><span class='value'><%=imagingsCompleted%></span></a></p>
+
+                                    <div class="footer">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 dashboard-card" id='last-card'>
+                            <div class="card" id="appointments-card">
+                                <div class="header">
+                                    <h4 class="title">Назначения</h4>
+                                    <p class="category">Назначения</p>
+                                    <hr>
+                                </div>
+                                <div class="content dashboard-list">
+                                    <p><i class="fa fa-plus-circle" aria-hidden="true"></i> Предстоящи: <a href="/appointment/pending?requested_by=<%=user.id%>"><span class='value'><%=appointmentsPending%></span></a></p>
+                                    <p><i class="fa fa-check" aria-hidden="true"></i> Отминали: <a href="/appointment/completed?requested_by=<%=user.id%>"><span class='value'><%=appointmentsCompleted%></span></a></p>
+                                    <div class="footer">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='row'>
+                        <div class='col-lg-6 feed'>
+                            <div class='card'>
+                                <form class='feed-form' onsubmit="return addNewPost();">
+                                    <div class='form-group'>
+                                        <textarea class='form-control' name='postContent' id='postContent' rows="3"></textarea>
+                                    </div>
+                                    <div class='feed-form-buttons'>
+                                        <button class="btn btn-primary" type="submit">Изпрати съобщение</button>
+                                        <button class="btn btn-danger" type="reset">Изчисти</button>
+                                    </div>
+                                    <hr />
+                                </form>
+                                <div class='posts'>
+                                    <% if(posts.length == 0) { %>
+                                        <div class='single-post'>
+                                            <div class='col-lg-12 single-post-content'>
+                                                <p id="no-posts">
+                                                    Все още няма постове.
+                                                </p>
+                                            </div>
+                                            <hr />
+                                        </div>
+                                        <% } else { %>
+                                            <% for(var i = 0; i < posts.length; i++) { %>
+                                                <div class='single-post' id="<%=posts[i].id%>">
+                                                    <img src="<%=posts[i].poster.image%>" class="rounded float-left">
+                                                    <div class='offset-lg-2 col-lg-10 single-post-content'>
+                                                        <p>
+                                                            <% if(posts[i].poster.id == user.id || user.employee.role == 'administrator')  { %>
+                                                                <i class="fa fa-times-circle delete-post" aria-hidden="true" onclick="removePost('<%=posts[i].id%>')"></i>
+                                                                <% } %>
+                                                                    <span class="post-body"><%=posts[i].body%></span>
+                                                        </p>
+                                                        <span class='post-info'>
+                                                         <span class='timeago'><%=posts[i].date%></span> by
+                                                        <a href='#' class='feed-poster'>
+                                                            <%=posts[i].poster.first_name%>
+                                                                <%=posts[i].poster.last_name%>
+                                                        </a>
+                                                        </span>
+                                                    </div>
+                                                    <hr />
+                                                </div>
+                                                <% } %>
+                                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='col-lg-6 hospital-info'>
+                          <div class='card'>
+                            <h1><%=hospital.hospitalName%></h1>
+                            <p class='hospital-address'>
+                              <%=hospital.hospitalAddress%>
+                            </p>
+                            <div id='hospital-map'>
+
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <!-- JS
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <script src="/js/jquery/jquery-1.12.2.min.js"></script>
+    <script src="/js/jquery.timeago.js" type="text/javascript"></script>
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/nav.js"></script>
+    <script src="/js/bootstrap-notify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.16/js/perfect-scrollbar.jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCA1aLrDlU3Fub0keorIQTYo7VzV_hi5pU&callback=initMap"></script>
+    <script>
+        var userId = "<%=user._id%>";
+        var address = "<%=hospital.hospitalAddress%>";
+    </script>
+    <script src='/js/sockets.js'></script>
+    <script src='/js/dashboard.js'></script>
+    <script src='/js/main.js'></script>
+    <!-- End Document
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+
+</html>

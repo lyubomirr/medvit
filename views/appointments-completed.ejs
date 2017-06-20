@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+
+    <meta charset="utf-8">
+    <title>Medvit - Medcial software for doctors, nurses, students and patients. |</title>
+    <meta name="description" content="">
+    <meta name="author" content="Antoan Dimitrov and Lyubomir Ruzhinski">
+    <!-- Mobile Specific Metas
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- FONTS
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <!-- CSS
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/media-queries.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <!-- Favicon
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+</head>
+
+<body>
+    <!-- Primary Page Layout
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <div class="sidebar">
+        <div class="logo">
+            <a href="/"><img src='/images/logo.png' id="logo-img" /></a>
+        </div>
+        <ul class="menu">
+            <li><a href="/dashboard"><i class="fa fa-bar-chart" aria-hidden="true"></i>НАЧАЛО</a></li>
+            <li>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>ПАЦИЕНТИ
+                    </a>
+
+                    <div class="dropdown-menu" id="patients-dropdown" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="/patient/add-new"><i class="fa fa-plus" aria-hidden="true"></i>Добави нов</a>
+                        <a class="dropdown-item" href="/patient/admitted"><i class="fa fa-hospital-o" aria-hidden="true"></i>Приети пациенти</a>
+                        <a class="dropdown-item" href="/patient/other"><i class="fa fa-ambulance" aria-hidden="true"></i>Други пациенти</a>
+                        <a class="dropdown-item" href="/patient"><i class="fa fa-users" aria-hidden="true"></i>Всички пациенти</a>
+                    </div>
+                </div>
+            </li>
+            <!-- <li><a href="/inventory"><i class="fa fa-medkit" aria-hidden="true"></i>ИНВЕНТАР</a></li> -->
+            <li>
+                <div class="dropdown show">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                        <i class="fa fa-handshake-o" aria-hidden="true"></i>НАЗНАЧЕНИЯ
+                    </a>
+
+                    <div class="dropdown-menu" id="appointments-dropdown" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="/appointment/pending"><i class="fa fa-plus-circle" aria-hidden="true"></i>Предстоящи</a>
+                        <a class="dropdown-item active" href="/appointment/completed"><i class="fa fa-check" aria-hidden="true"></i>Отминали</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                        <i class="fa fa-hospital-o" aria-hidden="true"></i>ИЗСЛЕДВАНИЯ
+                    </a>
+
+                    <div class="dropdown-menu" id="labs-dropdown" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="/lab/pending"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Незавършени</a>
+                        <a class="dropdown-item" href="/lab/completed"><i class="fa fa-check-square-o" aria-hidden="true"></i>Завършени</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                        <i class="fa fa-universal-access" aria-hidden="true"></i>РЕНГТЕН
+                    </a>
+
+                    <div class="dropdown-menu" id="labs-dropdown" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="/imaging/pending"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Незавършени</a>
+                        <a class="dropdown-item" href="/imaging/completed"><i class="fa fa-check-square-o" aria-hidden="true"></i>Завършени</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user-md" aria-hidden="true"></i>ПЕРСОНАЛ
+                    </a>
+
+                    <div class="dropdown-menu" id="patients-dropdown" aria-labelledby="dropdownMenuLink">
+                        <% if(!user.patient && user.employee.role == "administrator") { %>
+                            <a class="dropdown-item" href="/employee/add-new"><i class="fa fa-plus" aria-hidden="true"></i>Добави нов</a>
+                            <% } %>
+                                <a class="dropdown-item" href="/employee"><i class="fa fa-users" aria-hidden="true"></i>Всички</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="dashboard">
+        <% include bar.ejs %>
+            <div class="panels">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="card">
+                                <div class="header">
+                                    <h4 class="title">ОТМИНАЛИ НАЗНАЧЕНИЯ</h4>
+                                    <p class="category" style="display:inline">Списък</p>
+                                    <div class='row search-menu'>
+                                        <div class='col-lg-8'>
+                                            <form class="form-inline">
+                                                <div class='col-xs-12'>
+                                                    <input type="text" class="form-control search-bar" id="search_appointments" name="search_appointments" placeholder="Търсене" required>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="content table-responsive">
+                                    <table class="table patients">
+                                        <thead class="thead-inverse">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Дата</th>
+                                                <th>Пациент</th>
+                                                <th>Лекар</th>
+                                                <th>Местоположение</th>
+                                                <th>Тип</th>
+                                                <th>Състояние</th>
+                                                <th>Бележки</th>
+                                                <th>Действия</th>
+                                        </thead>
+                                        <tbody>
+                                            <% var i=1 %>
+                                                <% if(appointments.length == 0)  { %>
+                                                    <tr class='clickable-row'>
+                                                        <td scope="row">-</td>
+                                                        <td>-</td>
+                                                        <td>-</td>
+                                                        <td>-</td>
+                                                        <td>-</td>
+                                                        <td>-</td>
+                                                        <td>-</td>
+                                                        <td>-</td>
+                                                        <td>-</td>
+                                                    </tr>
+                                                    <% } %>
+                                                        <% appointments.forEach(function(appointment) { %>
+                                                            <tr class='clickable-row' id='<%=appointment.id%>'>
+                                                                <td data-href="/patient/<%=appointment.patient.id%>" scope="row">
+                                                                    <%= i %>
+                                                                </td>
+                                                                <td data-href="/patient/<%=appointment.patient.id%>">
+                                                                    <%=appointment.date.toLocaleDateString() %>
+                                                                </td>
+                                                                <td data-href="/patient/<%=appointment.patient.id%>">
+                                                                    <%=appointment.patient.first_name %>
+                                                                        <%=appointment.patient.last_name %>
+                                                                </td>
+                                                                <td data-href="/patient/<%=appointment.patient.id%>">
+                                                                    <%=appointment.examiner.first_name %>
+                                                                        <%=appointment.examiner.last_name %>
+                                                                </td>
+                                                                <td data-href="/patient/<%=appointment.patient.id%>">
+                                                                    <%=appointment.location %>
+                                                                </td>
+                                                                <td data-href="/patient/<%=appointment.patient.id%>">
+                                                                    <%=appointment.type %>
+                                                                </td>
+                                                                <td data-href="/patient/<%=appointment.patient.id%>">
+                                                                    <%=appointment.status %>
+                                                                </td>
+                                                                <td data-href="/patient/<%=appointment.patient.id%>">
+                                                                    <%=appointment.notes %>
+                                                                </td>
+                                                                <td>
+                                                                    <% if(appointment.examiner.id == user.id || user.employee.role == "administrator" ) { %>
+                                                                        <button type="button" class="btn btn-danger" title="Изтрий" onclick="removeAppointment('<%=appointment.id%>')"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                                        <% } else { %>
+                                                                            <i class="fa fa-ban no-action" aria-hidden="true"></i>
+                                                                            <% } %>
+                                                                </td>
+                                                            </tr>
+
+                                                            <% i++ %>
+                                                                <% }); %>
+
+                                        </tbody>
+                                    </table>
+                                    <div class="footer">
+                                        <hr>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <!-- JS
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <script src="/js/jquery/jquery-1.12.2.min.js"></script>
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/nav.js"></script>
+    <script src="/js/bootstrap-notify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+    <script>
+        var userId = "<%=user._id%>";
+    </script>
+    <script src='/js/sockets.js'></script>
+    <script>
+        $(document).ready(function() {
+            $(".clickable-row td").not(':last-child').click(function() {
+                window.document.location = $(this).data("href");
+            });
+            $('.complete-imaging').click(function() {
+                var imagingId = $(this).closest('tr').attr('id');
+                $('#imaging-form').attr('action', '/imaging/complete/' + imagingId);
+            });
+        });
+
+    </script>
+    <script src='/js/main.js'></script>
+    <!-- End Document
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+
+</html>

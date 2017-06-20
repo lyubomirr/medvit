@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+    <meta charset="utf-8">
+    <title>Medvit - Medcial software for doctors, nurses, students and patients. |</title>
+    <meta name="description" content="">
+    <meta name="author" content="Antoan Dimitrov and Lyubomir Ruzhinski">
+    <!-- Mobile Specific Metas
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- FONTS
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <!-- CSS
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/media-queries.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <!-- Favicon
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+</head>
+
+<body>
+    <!-- Primary Page Layout
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <% if(!user.patient) { %>
+    <div class="sidebar">
+        <div class="logo">
+            <a href="/"><img src='/images/logo.png' id="logo-img" /></a>
+        </div>
+        <ul class="menu">
+            <li><a href="/dashboard"><i class="fa fa-bar-chart" aria-hidden="true"></i>НАЧАЛО</a></li>
+            <li>
+                <div class="dropdown show">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>ПАЦИЕНТИ
+                    </a>
+
+                    <div class="dropdown-menu" id="patients-dropdown" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="/patient/add-new"><i class="fa fa-plus" aria-hidden="true"></i>Добави нов</a>
+                        <a class="dropdown-item" href="/patient/admitted"><i class="fa fa-hospital-o" aria-hidden="true"></i>Приети пациенти</a>
+                        <a class="dropdown-item" href="/patient/other"><i class="fa fa-ambulance" aria-hidden="true"></i>Други пациенти</a>
+                        <a class="dropdown-item" href="/patient"><i class="fa fa-users" aria-hidden="true"></i>Всички пациенти</a>
+                    </div>
+                </div>
+            </li>
+            <!-- <li><a href="/inventory"><i class="fa fa-medkit" aria-hidden="true"></i>ИНВЕНТАР</a></li> -->
+            <li>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                        <i class="fa fa-handshake-o" aria-hidden="true"></i>НАЗНАЧЕНИЯ
+                    </a>
+
+                    <div class="dropdown-menu" id="appointments-dropdown" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="/appointment/pending"><i class="fa fa-plus-circle" aria-hidden="true"></i>Предстоящи</a>
+                        <a class="dropdown-item" href="/appointment/completed"><i class="fa fa-check" aria-hidden="true"></i>Отминали</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                        <i class="fa fa-hospital-o" aria-hidden="true"></i>ИЗСЛЕДВАНИЯ
+                    </a>
+
+                    <div class="dropdown-menu" id="labs-dropdown" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="/lab/pending"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Незавършени</a>
+                        <a class="dropdown-item" href="/lab/completed"><i class="fa fa-check-square-o" aria-hidden="true"></i>Завършени</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                        <i class="fa fa-universal-access" aria-hidden="true"></i>РЕНГТЕН
+                    </a>
+
+                    <div class="dropdown-menu" id="labs-dropdown" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="/imaging/pending"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Незавършени</a>
+                        <a class="dropdown-item" href="/imaging/completed"><i class="fa fa-check-square-o" aria-hidden="true"></i>Завършени</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user-md" aria-hidden="true"></i>ПЕРСОНАЛ
+                    </a>
+
+                    <div class="dropdown-menu" id="patients-dropdown" aria-labelledby="dropdownMenuLink">
+                        <% if(!user.patient && user.employee.role == "administrator") { %>
+                            <a class="dropdown-item" href="/employee/add-new"><i class="fa fa-plus" aria-hidden="true"></i>Добави нов</a>
+                            <% } %>
+                                <a class="dropdown-item" href="/employee"><i class="fa fa-users" aria-hidden="true"></i>Всички</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <% } %>
+
+    <div class="dashboard <% if(user.patient) { %> hidden <% } %>">
+        <% include bar.ejs %>
+            <div class="panels">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="card personal-info">
+                                <div class="header">
+                                    <h4 class="title">Лична информация</h4>
+                                    <p class="category">Лична информация</p>
+                                </div>
+                                <div class="content personal-info">
+                                    <div class='row'>
+
+                                        <div class='col-lg-3'>
+                                            <img src="<%=patient.photo%>" alt="..." class="img-thumbnail">
+                                        </div>
+                                        <!--<div class='col-md-2'>
+                                            <div class='row' id='pressure'>
+                                                <img id='blood-pressure-img' src='https://cdn1.iconfinder.com/data/icons/medical-hospital/500/Medical-84-512.png' />
+                                                <span id='blood-pressure'>140:90</span>
+                                            </div>
+                                            <div class="row">
+                                                <img id="seventyfive" src="http://www.lahc.edu/classes/nursing/images/heartbeat.png"/>
+                                                <span id='heartrate'>87</span>
+                                            </div>
+
+
+                                        </div> -->
+                                        <div class='col-lg-9'>
+                                            <table class="table info-tables">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><i class="fa fa-user-circle" aria-hidden="true"></i></td>
+                                                        <td><span class='menu-item'>Име:</span></td>
+                                                        <td><span class='menu-value'><%= patient.first_name %> <%= patient.middle_name %> <%= patient.last_name %></span></td>
+                                                        <td><i class="fa fa-map-marker" aria-hidden="true"></i></td>
+                                                        <td><span class='menu-item'>Място на раждане:</span></td>
+                                                        <td><span class='menu-value'><%= patient.place_of_birth %></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><i class="fa fa-venus-mars" aria-hidden="true"></i></td>
+                                                        <td><span class='menu-item'>Пол:</span></td>
+                                                        <td><span class='menu-value'><%= patient.sex %></span></td>
+                                                        <td><i class="fa fa-tasks" aria-hidden="true"></i></td>
+                                                        <td><span class='menu-item'>Професия:</span></td>
+                                                        <td><span class='menu-value'><%= patient.occupation %></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><i class="fa fa-tint" aria-hidden="true"></i></td>
+                                                        <td><span class='menu-item'>Кръвна група:</span></td>
+                                                        <td><span class='menu-value'><%= patient.blood_type %></span></td>
+                                                        <td><i class="fa fa-plus" aria-hidden="true"></i></td>
+                                                        <td><span class='menu-item'>Религия:</span></td>
+                                                        <td><span class='menu-value'><%= patient.religion %></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><i class="fa fa-building-o" aria-hidden="true"></i></td>
+                                                        <td><span class='menu-item'>Отделение:</span></td>
+                                                        <td><span class='menu-value'><%= patient.department %></span></td>
+                                                        <td><i class="fa fa-mobile" aria-hidden="true"></i></td>
+                                                        <td><span class='menu-item'>Телефон:</span></td>
+                                                        <td><span class='menu-value'><%= patient.phone %></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><i class="fa fa-address-card-o" aria-hidden="true"></i></td>
+                                                        <td><span class='menu-item'>ЕГН:</span></td>
+                                                        <td><span class='menu-value'><%= patient.egn %></span></td>
+                                                        <td><i class="fa fa-map-pin" aria-hidden="true"></i></td>
+                                                        <td><span class='menu-item'>Адрес:</span></td>
+                                                        <td><span class='menu-value'><%= patient.address %></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><i class="fa fa-info" aria-hidden="true"></i></td>
+                                                        <td><span class='menu-item'>Състояние:</span></td>
+                                                        <td><span class='menu-value'><%= patient.status %></span></td>
+                                                        <td><i class="fa fa-envelope-o" aria-hidden="true"></i></td>
+                                                        <td><span class='menu-item'>Email:</span></td>
+                                                        <td><span class='menu-value'><%= patient.email %></span></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='row horizontal patient-tabs'>
+                        <div class='col-md-12'>
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="#general-info" data-toggle="tab">Информация</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#caregivers" data-toggle="tab">Персонал</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#appointments" data-toggle="tab">Назначения</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#visits" data-toggle="tab">Посещения</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#medication" data-toggle="tab">Лечения</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#imaging" data-toggle="tab">Рентген</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#labs" data-toggle="tab">Изследвания</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#family-members" data-toggle="tab">Близки</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#expenses" data-toggle="tab">Разходи</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#allergies" data-toggle="tab">Алергии</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class='card info-container'>
+                        <div class="tab-content">
+                            <div id="general-info" class="tab-pane fade in active show">
+                                <div class='row'>
+                                    <div class='col-md-12'>
+                                        <h3>Обща информация</h3>
+                                        <% if(!user.patient) { %>
+                                            <button type="button" class="pull-right btn btn-secondary btn-lg profile-add-button" data-toggle="modal" data-target="#general-info-modal"><i class="fa fa-plus"></i> Редактиране</button>
+                                            <a href="/patient/export/<%=patient.id%>">
+                                                <button type="button" class="pull-right btn btn-primary btn-lg profile-add-button">Експортиране</button>
+                                            </a>
+                                            <% } %>
+                                                <a href="/chart.html">
+                                                    <button type="button" class="pull-right btn btn-danger btn-lg profile-add-button">Кардиограма</button>
+                                                </a>
+                                    </div>
+                                </div>
+                                <hr />
+                                <p>
+                                    <%= record.general_info %>
+                                </p>
+                            </div>
+                            <div id="appointments" class="tab-pane fade">
+                                <div class='row'>
+                                    <div class='col-md-12'>
+                                        <h3>Назначения </h3>
+                                        <% if(!user.patient && (user.employee.role == "doctor" || user.employee.role == "administrator")) { %>
+                                            <button type="button" id="add-appointment" class="pull-right btn btn-secondary btn-lg profile-add-button" data-toggle="modal" data-target="#appointment-modal"><i class="fa fa-plus"></i> Добави</button>
+                                            <% } %>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="content table-responsive">
+                                    <table class="table patients">
+                                        <thead class="thead-inverse">
+                                            <tr>
+                                                <th>Дата</th>
+                                                <th>Лекар</th>
+                                                <th>Местоположение</th>
+                                                <th>Тип</th>
+                                                <th>Състояние</th>
+                                                <th>Бележки</th>
+                                                <th>Действия</th>
+                                        </thead>
+                                        <tbody>
+                                            <% if(record.appointments.length == 0) { %>
+                                                <tr class='clickable-row' data-href='http://google.bg'>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                </tr>
+
+                                                <% } %>
+                                                    <% for(var i = 0; i < record.appointments.length; i++) { %>
+                                                        <% if(record.appointments[i].date >= Date.now()) { %>
+                                                            <tr class='clickable-row' id="<%=record.appointments[i].id%>">
+                                                                <td>
+                                                                    <%=record.appointments[i].date.toLocaleDateString() %>
+                                                                </td>
+                                                                <td>
+                                                                    <%=record.appointments[i].examiner.first_name%>
+                                                                        <%=record.appointments[i].examiner.last_name%>
+                                                                </td>
+                                                                <td>
+                                                                    <%=record.appointments[i].location %>
+                                                                </td>
+                                                                <td>
+                                                                    <%=record.appointments[i].type %>
+                                                                </td>
+                                                                <td>
+                                                                    <%=record.appointments[i].status %>
+                                                                </td>
+                                                                <td>
+                                                                    <%=record.appointments[i].notes %>
+                                                                </td>
+                                                                <td>
+                                                                    <% if(!user.patient && user.employee.role == "administrator" || user.id == record.appointments[i].examiner.id ) { %>
+                                                                        <button type="button" data-toggle="modal" data-target="#appointment-modal" class="btn btn-info" onclick="editAppointment('<%= record.appointments[i].id%>')"> <i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                                                        <button type="button" class="btn btn-danger" onclick="removeAppointment('<%= record.appointments[i].id%>')"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                                        <% } else {%>
+                                                                            <i class="fa fa-ban no-action" aria-hidden="true"></i>
+                                                                            <% } %>
+                                                                </td>
+
+                                                            </tr>
+                                                            <% } %>
+                                                                <% } %>
+                                        </tbody>
+                                    </table>
+
+                                    <!--        <div class="center-block">
+                                            <ul class="pagination">
+                                                    <li class="page-item">
+                                                      <a class="page-link" href="#" aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                        <span class="sr-only">Previous</span>
+                                                      </a>
+                                                    </li>
+                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">5</a></li>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="#" aria-label="Next">
+                                                          <span aria-hidden="true">&raquo;</span>
+                                                          <span class="sr-only">Next</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                        </div> -->
+                                </div>
+                            </div>
+
+                            <div id="caregivers" class="tab-pane fade">
+                                <div class='row'>
+                                    <div class='col-md-12'>
+                                        <h3>Персонал</h3>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="content table-responsive">
+                                    <table class="table patients">
+                                        <thead class="thead-inverse">
+                                            <tr>
+                                                <th>Собствено име</th>
+                                                <th>Фамилия</th>
+                                                <th>Отделение</th>
+                                                <th>Роля</th>
+                                        </thead>
+                                        <tbody>
+                                            <% if(doctors.length == 0) { %>
+                                                <tr class='clickable-row' data-href='http://google.bg'>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                </tr>
+
+                                                <% } %>
+                                                    <% for(var i = 0; i < doctors.length; i++) { %>
+                                                        <tr class='clickable-row' data-href='http://google.bg'>
+                                                            <td>
+                                                                <%=doctors[i].employee.firstName %>
+                                                            </td>
+                                                            <td>
+                                                                <%=doctors[i].employee.lastName %>
+                                                            </td>
+                                                            <td>
+                                                                <%=doctors[i].employee.department %>
+                                                            </td>
+                                                            <td>
+                                                                <%if(doctors[i].employee.role== "administrator") {%>Администратор
+                                                                    <% } else %>
+                                                                        <%if(doctors[i].employee.role== "doctor") {%>Лекар
+                                                                            <% } else %>
+                                                                                <%if(doctors[i].employee.role== "nurse") {%>Мед.сестра
+                                                                                    <%} %>
+                                                            </td>
+                                                        </tr>
+                                                        <% } %>
+                                        </tbody>
+                                    </table>
+
+                                    <!-- <div class="center-block">
+                                            <ul class="pagination">
+                                                    <li class="page-item">
+                                                      <a class="page-link" href="#" aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                        <span class="sr-only">Previous</span>
+                                                      </a>
+                                                    </li>
+                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">5</a></li>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="#" aria-label="Next">
+                                                          <span aria-hidden="true">&raquo;</span>
+                                                          <span class="sr-only">Next</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                        </div> -->
+                                </div>
+                            </div>
+
+                            <div id="visits" class="tab-pane fade">
+                                <div class='row'>
+                                    <div class="col-md-12">
+                                        <h3>Посещения</h3>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="content table-responsive">
+                                    <table class="table patients">
+                                        <thead class="thead-inverse">
+                                            <tr>
+                                                <th>Дата</th>
+                                                <th>Преглеждан от:</th>
+                                                <th>Местоположение</th>
+                                                <th>Тип</th>
+                                                <th>Състояние</th>
+                                                <th>Бележки</th>
+                                                <th>Действия</th>
+                                        </thead>
+                                        <tbody>
+                                            <% if(record.appointments.length == 0) { %>
+                                                <tr class='clickable-row'>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                </tr>
+                                                <% } %>
+                                                    <% for(var i = 0; i < record.appointments.length; i++)  { %>
+                                                        <% if(record.appointments[i].date < Date.now()) { %>
+                                                            <tr class='clickable-row' id="<%= record.appointments[i].id%>">
+                                                                <td>
+                                                                    <%=record.appointments[i].date.toLocaleDateString() %>
+                                                                </td>
+                                                                <td>
+                                                                    <%=record.appointments[i].examiner.first_name%>
+                                                                        <%=record.appointments[i].examiner.last_name%>
+                                                                </td>
+                                                                <td>
+                                                                    <%=record.appointments[i].location %>
+                                                                </td>
+                                                                <td>
+                                                                    <%=record.appointments[i].type %>
+                                                                </td>
+                                                                <td>
+                                                                    <%=record.appointments[i].status %>
+                                                                </td>
+                                                                <td>
+                                                                    <%=record.appointments[i].notes %>
+                                                                </td>
+
+                                                                <td>
+                                                                    <% if(!user.patient && user.employee.role == "administrator" || user.id == record.appointments[i].examiner.id ) { %>
+                                                                        <button type="button" class="btn btn-danger" onclick="removeAppointment('<%= record.appointments[i].id%>')"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                                        <% } else {%>
+                                                                            <i class="fa fa-ban no-action" aria-hidden="true"></i>
+                                                                            <% } %>
+                                                                </td>
+
+                                                            </tr>
+                                                            <% } %>
+                                                                <% } %>
+                                        </tbody>
+                                    </table>
+
+                                    <!--    <div class="center-block">
+                                            <ul class="pagination">
+                                                    <li class="page-item">
+                                                      <a class="page-link" href="#" aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                        <span class="sr-only">Previous</span>
+                                                      </a>
+                                                    </li>
+                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">5</a></li>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="#" aria-label="Next">
+                                                          <span aria-hidden="true">&raquo;</span>
+                                                          <span class="sr-only">Next</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                        </div> -->
+                                </div>
+                            </div>
+                            <div id="medication" class="tab-pane fade">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3>Лечения</h3>
+                                        <% if(!user.patient && (user.employee.role == "doctor" || user.employee.role == "administrator")) { %>
+                                            <button type="button" id="add-medication" class="pull-right btn btn-secondary btn-lg profile-add-button" data-toggle="modal" data-target="#medication-modal"><i class="fa fa-plus"></i> Добави</button>
+                                            <% } %>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="content table-responsive">
+                                    <table class="table patients">
+                                        <thead class="thead-inverse">
+                                            <tr>
+                                                <th>Дата</th>
+                                                <th>Име</th>
+                                                <th>Състояние</th>
+                                                <th>Предписание</th>
+                                                <th>Предписано от</th>
+                                                <th>Действия</th>
+                                        </thead>
+                                        <tbody>
+                                            <% if(record.medications.length == 0) { %>
+                                                <tr class='clickable-row'>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                </tr>
+                                                <% } %>
+                                                    <% for(var i = 0; i < record.medications.length; i++) { %>
+                                                        <tr class='clickable-row' data-href='http://google.bg' id="<%= record.medications[i].id%>">
+                                                            <td>
+                                                                <%=record.medications[i].date.toLocaleDateString() %>
+                                                            </td>
+                                                            <td>
+                                                                <%=record.medications[i].name %>
+                                                            </td>
+                                                            <td>
+                                                                <%=record.medications[i].status %>
+                                                            </td>
+                                                            <td>
+                                                                <%=record.medications[i].prescription %>
+                                                            </td>
+                                                            <td>
+                                                                <%=record.medications[i].requested_by.first_name%>
+                                                                    <%=record.medications[i].requested_by.last_name%>
+                                                            </td>
+                                                            <td>
+                                                                <% if(!user.patient && user.employee.role == "administrator" || user.id == record.medications[i].requested_by.id ) { %>
+                                                                    <button type="button" class="btn btn-info" onclick="editMedication('<%= record.medications[i].id%>')" data-toggle="modal" data-target="#medication-modal" ><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                                                    <button type="button" class="btn btn-danger" onclick="removeMedication('<%= record.medications[i].id%>')"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                                    <% } else { %>
+                                                                        <i class="fa fa-ban no-action" aria-hidden="true"></i>
+                                                                        <% } %>
+                                                            </td>
+                                                        </tr>
+
+                                                        <% } %>
+                                        </tbody>
+                                    </table>
+                                    <!--
+                                        <div class="center-block">
+                                            <ul class="pagination">
+                                                    <li class="page-item">
+                                                      <a class="page-link" href="#" aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                        <span class="sr-only">Previous</span>
+                                                      </a>
+                                                    </li>
+                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">5</a></li>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="#" aria-label="Next">
+                                                          <span aria-hidden="true">&raquo;</span>
+                                                          <span class="sr-only">Next</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                        </div>-->
+                                </div>
+                            </div>
+                            <div id="imaging" class="tab-pane fade">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3>Рентген</h3>
+                                        <% if(!user.patient && (user.employee.role == "administrator" || user.employee.role == "doctor" || user.employee.role == "nurse")) { %>
+                                            <button type="button" class="pull-right btn btn-secondary btn-lg profile-add-button" id="add-imaging" data-toggle="modal" data-target="#imaging-modal"><i class="fa fa-plus"></i> Добави</button>
+                                            <% } %>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="content table-responsive">
+                                    <table class="table patients">
+                                        <thead class="thead-inverse">
+                                            <tr>
+                                                <th>Тип</th>
+                                                <th>Резултат</th>
+                                                <th>Бележки</th>
+                                                <th>Поискан от</th>
+                                                <th>Действия</th>
+                                        </thead>
+                                        <tbody>
+                                            <% if(record.imagings.length == 0) { %>
+                                                <tr class='clickable-row' data-href='http://google.bg'>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                </tr>
+                                                <% } %>
+                                                    <% for(var i = 0; i < record.imagings.length; i++) { %>
+                                                        <tr class='clickable-row' id="<%=record.imagings[i].id%>">
+                                                            <td>
+                                                                <%=record.imagings[i].type%>
+                                                            </td>
+                                                            <td>
+                                                                <%=record.imagings[i].result%>
+                                                            </td>
+                                                            <td>
+                                                                <%=record.imagings[i].notes%>
+                                                            </td>
+                                                            <td>
+                                                                <%=record.imagings[i].requested_by.first_name%>
+                                                                    <%=record.imagings[i].requested_by.last_name%>
+                                                            </td>
+                                                            <td>
+                                                                <% if(!user.patient && (user.id == record.imagings[i].requested_by.id || user.employee.role == "administrator")) { %>
+                                                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#imaging-modal" onclick="editImaging('<%=record.imagings[i].id%>')"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                                                    <button type="button" class="btn btn-danger" onclick="removeImaging('<%=record.imagings[i].id%>')"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                                    <% } else { %>
+                                                                        <i class="fa fa-ban no-action" aria-hidden="true"></i>
+                                                                        <% } %>
+                                                            </td>
+                                                        </tr>
+                                                        <% } %>
+                                        </tbody>
+                                    </table>
+                                    <!--    <div class="center-block">
+                                            <ul class="pagination">
+                                                    <li class="page-item">
+                                                      <a class="page-link" href="#" aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                        <span class="sr-only">Previous</span>
+                                                      </a>
+                                                    </li>
+                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">5</a></li>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="#" aria-label="Next">
+                                                          <span aria-hidden="true">&raquo;</span>
+                                                          <span class="sr-only">Next</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                        </div> -->
+                                </div>
+                            </div>
+                            <div id="labs" class="tab-pane fade">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3>Изследвания</h3>
+                                        <% if(!user.patient && (user.employee.role == "administrator" || user.employee.role == "doctor" || user.employee.role == "nurse")) { %>
+                                            <button type="button" id='add-lab' class="pull-right btn btn-secondary btn-lg profile-add-button" data-toggle="modal" data-target="#labs-modal"><i class="fa fa-plus"></i> Добави</button>
+                                            <% } %>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="content table-responsive">
+                                    <table class="table patients">
+                                        <thead class="thead-inverse">
+                                            <tr>
+                                                <th>Тип</th>
+                                                <th>Състояние</th>
+                                                <th>Резултат</th>
+                                                <th>Бележки</th>
+                                                <th>Поискано от</th>
+                                                <th>Действия</th>
+                                        </thead>
+                                        <tbody>
+                                            <% if(record.labs.length == 0) { %>
+                                                <tr class='clickable-row' data-href='http://google.bg'>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                </tr>
+
+                                                <% } %>
+                                                    <% for(var i = 0; i < record.labs.length; i++) { %>
+                                                        <tr class='clickable-row' id='<%=record.labs[i].id%>'>
+                                                            <td>
+                                                                <%=record.labs[i].lab_type%>
+                                                            </td>
+                                                            <td>
+                                                                <%=record.labs[i].status%>
+                                                            </td>
+                                                            <td>
+                                                                <%=record.labs[i].result%>
+                                                            </td>
+                                                            <td>
+                                                                <%=record.labs[i].notes%>
+                                                            </td>
+                                                            <td>
+                                                                <%=record.labs[i].requested_by.first_name%>
+                                                                    <%=record.labs[i].requested_by.last_name%>
+                                                            </td>
+                                                            <td>
+                                                                <% if(!user.patient && (user.id == record.labs[i].requested_by.id || user.employee.role == "administrator")) { %>
+                                                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#labs-modal" onclick="editLab('<%=record.labs[i].id%>')"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                                                    <button type="button" class="btn btn-danger" onclick="removeLab('<%=record.labs[i].id%>')"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                                    <% } else {%>
+                                                                        <i class="fa fa-ban no-action" aria-hidden="true"></i>
+                                                                        <% } %>
+
+                                                            </td>
+                                                        </tr>
+                                                        <% } %>
+                                        </tbody>
+                                    </table>
+                                    <!--    <div class="center-block">
+                                            <ul class="pagination">
+                                                    <li class="page-item">
+                                                      <a class="page-link" href="#" aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                        <span class="sr-only">Previous</span>
+                                                      </a>
+                                                    </li>
+                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">5</a></li>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="#" aria-label="Next">
+                                                          <span aria-hidden="true">&raquo;</span>
+                                                          <span class="sr-only">Next</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                        </div> -->
+                                </div>
+                            </div>
+                            <div id="family-members" class="tab-pane fade">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3>Настойници</h3>
+                                        <button type="button" id="add-family-member" class="pull-right btn btn-secondary btn-lg profile-add-button" data-toggle="modal" data-target="#family-member-modal"><i class="fa fa-plus"></i> Добави</button>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="content table-responsive">
+                                    <table class="table patients">
+                                        <thead class="thead-inverse">
+                                            <tr>
+                                                <th>Име</th>
+                                                <th>Години</th>
+                                                <th>Гражданско положение</th>
+                                                <th>Връзка</th>
+                                                <th>Образование</th>
+                                                <th>Професия</th>
+                                                <th>Приходи</th>
+                                                <th>Застраховка</th>
+                                                <th>Действия</th>
+                                        </thead>
+                                        <tbody>
+                                            <% if(record.family_members.length == 0) { %>
+                                                <tr class='clickable-row' data-href='http://google.bg'>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+
+                                                <% } %>
+                                                    <% for(var i = 0; i < record.family_members.length; i++) { %>
+                                                        <tr class='clickable-row' data-href='http://google.bg' id='<%=record.family_members[i].id%>'>
+                                                            <td>
+                                                                <%=record.family_members[i].name%>
+                                                            </td>
+                                                            <td>
+                                                                <%=record.family_members[i].age%>
+                                                            </td>
+                                                            <td>
+                                                                <%=record.family_members[i].civil_status%>
+                                                            </td>
+                                                            <td>
+                                                                <%=record.family_members[i].relationship%>
+                                                            </td>
+                                                            <td>
+                                                                <%=record.family_members[i].education%>
+                                                            </td>
+                                                            <td>
+                                                                <%=record.family_members[i].occupation%>
+                                                            </td>
+                                                            <td>
+                                                                <%=record.family_members[i].income%>
+                                                            </td>
+                                                            <td>
+                                                                <%=record.family_members[i].insurance%>
+                                                            </td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#family-member-modal" onclick="editFamilyMember('<%=record.family_members[i].id%>')"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                                                <button type="button" class="btn btn-danger" onclick="removeFamilyMember('<%=record.family_members[i].id%>')"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                        <% } %>
+                                        </tbody>
+                                    </table>
+                                    <!--    <div class="center-block">
+                                            <ul class="pagination">
+                                                    <li class="page-item">
+                                                      <a class="page-link" href="#" aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                        <span class="sr-only">Previous</span>
+                                                      </a>
+                                                    </li>
+                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">5</a></li>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="#" aria-label="Next">
+                                                          <span aria-hidden="true">&raquo;</span>
+                                                          <span class="sr-only">Next</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                        </div> -->
+                                </div>
+                            </div>
+                            <div id="expenses" class="tab-pane fade">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3>Разходи</h3>
+                                        <% if((!user.patient) && (user.employee.role == "administrator" || user.employee.role == "doctor" || user.employee.role == "nurse")) { %>
+                                            <button type="button" id="add-expense" class="pull-right btn btn-secondary btn-lg profile-add-button" data-toggle="modal" data-target="#expenses-modal"><i class="fa fa-plus"></i> Добави</button>
+                                            <% } %>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="content table-responsive">
+                                    <table class="table patients">
+                                        <thead class="thead-inverse">
+                                            <tr>
+                                                <th>Категория</th>
+                                                <th>Източник</th>
+                                                <th>Месечни разноски</th>
+                                                <th>Действия</th>
+                                        </thead>
+                                        <tbody>
+                                            <% if(record.expenses.length == 0) { %>
+                                                <tr class='clickable-row' data-href='http://google.bg'>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                </tr>
+                                                <% } %>
+                                                    <% for(var i = 0; i < record.expenses.length; i++) { %>
+                                                        <tr class='clickable-row' data-href='http://google.bg' id='<%=record.expenses[i].id%>'>
+                                                            <td>
+                                                                <%=record.expenses[i].category%>
+                                                            </td>
+                                                            <td>
+                                                                <%=record.expenses[i].sources%>
+                                                            </td>
+                                                            <td>
+                                                                <%=record.expenses[i].monthly_cost%>
+                                                            </td>
+                                                            <td>
+                                                                <% if((!user.patient) && (user.employee.role == "administrator" || user.employee.role == "doctor" || user.employee.role == "nurse")) { %>
+                                                                    <button type="button" class="btn btn-info" onclick="editExpense('<%=record.expenses[i].id%>')" data-toggle="modal" data-target="#expenses-modal"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                                                    <button type="button" class="btn btn-danger" onclick="removeExpense('<%=record.expenses[i].id%>')"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                                    <% } else {%>
+                                                                        <i class="fa fa-ban no-action" aria-hidden="true"></i>
+                                                                        <% } %>
+                                                            </td>
+                                                        </tr>
+                                                        <% } %>
+                                        </tbody>
+                                    </table>
+                                    <!--    <div class="center-block">
+                                            <ul class="pagination">
+                                                    <li class="page-item">
+                                                      <a class="page-link" href="#" aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                        <span class="sr-only">Previous</span>
+                                                      </a>
+                                                    </li>
+                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">5</a></li>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="#" aria-label="Next">
+                                                          <span aria-hidden="true">&raquo;</span>
+                                                          <span class="sr-only">Next</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                        </div> -->
+                                </div>
+                            </div>
+                            <div id="allergies" class="tab-pane fade">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3>Алергии</h3>
+                                        <button type="button" class="pull-right btn btn-secondary btn-lg profile-add-button" data-toggle="modal" data-target="#allergies-modal"><i class="fa fa-plus"></i> Добави</button>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class='row'>
+                                    <div class='col-lg-6'>
+                                        <ul class="list-group">
+                                            <% for(var i = 0; i < patient.allergies.length; i++) {%>
+                                                <li class="list-group-item" id='<%=patient.allergies[i]._id%>'>
+                                                    <%=patient.allergies[i].value %>
+                                                        <button type="button" class="btn btn-danger float-xs-right" onclick="removeAllergy('<%=patient.id%>','<%=patient.allergies[i]._id%>')"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                </li>
+                                                <% } %>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--
+                    <div class='row bottom-panel'>
+                        <div class="col-md-12 col-sm-12">
+                            <div class="card general-info">
+                                <div class="header">
+                                    <h4 class="title">General info</h4>
+                                    <p class="category">General info</p>
+                                </div>
+                                <div class="content">
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                -->
+                </div>
+            </div>
+    </div>
+
+    <!--modals-->
+    <div class="modal fade" id="appointment-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal_label">Ново назначение</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" id="appointment-form" action="/appointment/<%=patient.id %>">
+                        <div class="form-group">
+                            <label for="date" class="col-xs-2 col-form-label">Дата</label>
+                            <input class="form-control" type="date" value="2016-11-20" id="appointment-date" name='date'>
+                        </div>
+                        <div class="form-group">
+                            <label for="department">Отделение</label>
+                            <select class="form-control" id="appointment-location" name="location">
+                                    <option>Кардиология</option>
+                                    <option>Дерматология</option>
+                                    <option>Урология</option>
+                                    <option>Неврология</option>
+                                    <option>Психиатрия</option>
+                                    <option>Хирургия</option>
+                                    <option>Гинекология</option>
+                                    <option>Педиатрия</option>
+                                    <option>Спешно отделение</option>
+                                    <option>Инфекциозни болести</option>
+                                    <option>Нефрология</option>
+                                    <option>Ортопедия</option>
+                                    <option>Гастроентерология</option>
+                                    <option>Токсикология</option>
+                                </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="type">Тип</label>
+                            <input type="text" class="form-control" id="appointment-type" name="type" placeholder="Type">
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Състояние</label>
+                            <input type="text" class="form-control" id="appointment-status" name="status" placeholder="Status">
+                        </div>
+                        <div class="form-group">
+                            <label for="notes">Бележки</label>
+                            <input type="text" class="form-control" id="appointment-notes" name="notes" placeholder="Notes">
+                        </div>
+                        <button type="submit" class="btn btn-primary modal-submit">Потвърди</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="caregiver-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal_label">Ново служебно лице</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/employee/<%=patient.id %>">
+                        <div class="form-group">
+                            <label for="first_name">Собствено име</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First name">
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name">Фамилия</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last name">
+                        </div>
+                        <div class="form-group">
+                            <label for="department">Отделение</label>
+                            <select class="form-control" id="department" name="department">
+                                    <option>Кардиология</option>
+                                    <option>Дерматология</option>
+                                    <option>Урология</option>
+                                    <option>Неврология</option>
+                                    <option>Психиатрия</option>
+                                    <option>Хирургия</option>
+                                    <option>Гинекология</option>
+                                    <option>Педиатрия</option>
+                                    <option>Спешно отделение</option>
+                                    <option>Инфекциозни болести</option>
+                                    <option>Нефрология</option>
+                                    <option>Ортопедия</option>
+                                    <option>Гастроентерология</option>
+                                    <option>Токсикология</option>
+                                </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="role">Роля</label>
+                            <select class="form-control" id="role" name="role">
+                                    <option>Лекар</option>
+                                    <option>Мед. сестра</option>
+                                    <option>Санитар</option>
+                                </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary modal-submit">Потвърди</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="medication-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal_label">Ново лечение</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/medication/<%=patient.id %>" id="medication-form">
+                        <div class="form-group">
+                            <label for="name">Име</label>
+                            <input type="text" class="form-control" id="medication-name" name="name" placeholder="Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Състояние</label>
+                            <input type="text" class="form-control" id="medication-status" name="status" placeholder="Status">
+                        </div>
+                        <div class="form-group">
+                            <label for="prescription">Предписание</label>
+                            <input type="text" class="form-control" id="medication-prescription" name="prescription" placeholder="Prescription">
+                        </div>
+                        <button type="submit" class="btn btn-primary modal-submit">Потвърди</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="imaging-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal_label">Нов рентген</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <form id="imaging-form" method="post" action="/imaging/<%=patient.id%>">
+                        <div class="form-group">
+                            <label for="type">Тип</label>
+                            <input type="text" class="form-control" id="imaging-type" name="type" placeholder="Type">
+                        </div>
+                        <div class="form-group">
+                            <label for="result">Резултат</label>
+                            <input type="text" class="form-control" id="imaging-result" name="result" placeholder="Result">
+                        </div>
+                        <div class="form-group">
+                            <label for="prescription">Бележки</label>
+                            <input type="text" class="form-control" id="imaging-notes" name="notes" placeholder="Notes">
+                        </div>
+                        <button type="submit" class="btn btn-primary appointment-modal-submit">Потвърди</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="labs-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal_label">Ново изследване</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" id='lab-form' action="/lab/<%=patient.id%>">
+                        <div class="form-group">
+                            <label for="type">Тип</label>
+                            <input type="text" class="form-control" id="lab-type" name="type" placeholder="Type">
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Състояние</label>
+                            <input type="text" class="form-control" id="lab-status" name="status" placeholder="Status">
+                        </div>
+                        <div class="form-group">
+                            <label for="result">Резултат</label>
+                            <input type="text" class="form-control" id="lab-result" name="result" placeholder="Result">
+                        </div>
+                        <div class="form-group">
+                            <label for="prescription">Бележки</label>
+                            <input type="text" class="form-control" id="lab-notes" name="notes" placeholder="Notes">
+                        </div>
+                        <button type="submit" class="btn btn-primary appointment-modal-submit">Потвърди</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="family-member-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal_label">Нов настойник</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" id="family-member-form" action="/familymember/<%=patient.id%>">
+                        <div class="form-group">
+                            <label for="name">Име</label>
+                            <input type="text" class="form-control" id="family-member-name" name="name" placeholder="Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="age">Възраст</label>
+                            <input type="number" class="form-control" id="family-member-age" name="age" placeholder="Age">
+                        </div>
+                        <div class="form-group">
+                            <label for="civil_status">Гражданско положение</label>
+                            <input type="text" class="form-control" id="family-member-civil-status" name="civil_status" placeholder="Civil status">
+                        </div>
+                        <div class="form-group">
+                            <label for="relationship">Relationship</label>
+                            <input type="text" class="form-control" id="family-member-relationship" name="relationship" placeholder="Relationship">
+                        </div>
+                        <div class="form-group">
+                            <label for="education">Образование</label>
+                            <input type="text" class="form-control" id="family-member-education" name="education" placeholder="Education">
+                        </div>
+                        <div class="form-group">
+                            <label for="occupation">Професия</label>
+                            <input type="text" class="form-control" id="family-member-occupation" name="occupation" placeholder="Occupation">
+                        </div>
+                        <div class="form-group">
+                            <label for="income">Приходи</label>
+                            <input type="number" class="form-control" id="family-member-income" name="income" placeholder="Income">
+                        </div>
+                        <div class="form-group">
+                            <label for="insurance">Застраховка</label>
+                            <input type="text" class="form-control" id="family-member-insurance" name="insurance" placeholder="Insurance">
+                        </div>
+                        <button type="submit" class="btn btn-primary appointment-modal-submit">Потвърди</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="expenses-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal_label">Нов разход</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" id="expense-form" action="/expense/<%=patient.id%>">
+                        <div class="form-group">
+                            <label for="category">Категория</label>
+                            <input type="text" class="form-control" id="expense-category" name="category" placeholder="Category">
+                        </div>
+                        <div class="form-group">
+                            <label for="sources">Източник</label>
+                            <input type="text" class="form-control" id="expense-sources" name="sources" placeholder="Sources">
+                        </div>
+                        <div class="form-group">
+                            <label for="monthly_cost">Месечни разноски</label>
+                            <input type="number" class="form-control" id="expense-monthly-cost" name="monthly_cost" placeholder="Monthy cost">
+                        </div>
+                        <button type="submit" class="btn btn-primary appointment-modal-submit">Потвърди</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="allergies-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal_label">Нова алергия</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/patient/<%= patient.id%>/addnewallergy">
+                        <div class="form-group">
+                            <label for="allergy">Алергия</label>
+                            <input type="text" class="form-control" id="allergy" name="allergy" placeholder="Allergy">
+                        </div>
+                        <button type="submit" class="btn btn-primary appointment-modal-submit">Потвърди</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="general-info-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal_label">Редактиране на обща информация</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/clinicalrecord/<%=patient.id%>">
+                        <div class="form-group">
+                            <label for="general_info">Обща информация:</label>
+                            <textarea class="form-control" rows="8" id="general_info" name='general_info'><%=record.general_info%></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary appointment-modal-submit">Потвърди</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- end of modals -->
+    <!-- JS
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <script src="/js/jquery/jquery-1.12.2.min.js"></script>
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/nav.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+    <script src="/js/bootstrap-notify.js"></script>
+    <script src='/js/main.js'></script>
+    <script>
+        var userId = "<%=user._id%>";
+    </script>
+    <script src='/js/sockets.js'></script>
+    <script>
+        $(document).ready(function() {
+            
+                
+            $('#add-appointment').click(function() {
+                $('#appointment-form').trigger('reset');
+                $('#appointment-form').attr('action', '/appointment/<%=patient.id %>');
+            });
+            $('#add-imaging').click(function() {
+                $('#imaging-form').trigger('reset');
+                $('#imaging-form').attr('action', '/imaging/<%=patient.id %>');
+            });
+            $('#add-lab').click(function() {
+                $('#lab-form').trigger('reset');
+                $('#lab-form').attr('action', '/lab/<%=patient.id %>');
+            });
+            $('#add-expense').click(function() {
+                $('#expense-form').trigger('reset');
+                $('#expense-form').attr('action', '/expense/<%=patient.id %>');
+            });
+            $('#add-medication').click(function() {
+                $('#medication-form').trigger('reset');
+                $('#medication-form').attr('action', '/medication/<%=patient.id %>');
+            });
+            $('#add-family-member').click(function() {
+                $('#family-member-form').trigger('reset');
+                $('#family-member-form').attr('action', '/familymember/<%=patient.id %>');
+            });
+        });
+
+    </script>
+
+    <!-- End Document      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+    <meta charset="utf-8">
+    <title>Medvit - Medcial software for doctors, nurses, students and patients. |</title>
+    <meta name="description" content="">
+    <meta name="author" content="Antoan Dimitrov and Lyubomir Ruzhinski">
+    <!-- Mobile Specific Metas
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- FONTS
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <!-- CSS
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/media-queries.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <!-- Favicon
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+</head>
+
+<body>
+    <!-- Primary Page Layout
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <div class="sidebar">
+        <div class="logo">
+            <a href="/"><img src='/images/logo.png' id="logo-img" /></a>
+        </div>
+        <ul class="menu">
+            <li><a href="/dashboard"><i class="fa fa-bar-chart" aria-hidden="true"></i>НАЧАЛО</a></li>
+            <li>
+                <div class="dropdown show">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>ПАЦИЕНТИ
+                    </a>
+
+                    <div class="dropdown-menu" id="patients-dropdown" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item active" href="/patient/add-new"><i class="fa fa-plus" aria-hidden="true"></i>Добави нов</a>
+                        <a class="dropdown-item" href="/patient/admitted"><i class="fa fa-hospital-o" aria-hidden="true"></i>Приети пациенти</a>
+                        <a class="dropdown-item" href="/patient/other"><i class="fa fa-ambulance" aria-hidden="true"></i>Други пациенти</a>
+                        <a class="dropdown-item" href="/patient"><i class="fa fa-users" aria-hidden="true"></i>Всички пациенти</a>
+                    </div>
+                </div>
+            </li>
+            <!-- <li><a href="/inventory"><i class="fa fa-medkit" aria-hidden="true"></i>ИНВЕНТАР</a></li> -->
+            <li>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                        <i class="fa fa-handshake-o" aria-hidden="true"></i>НАЗНАЧЕНИЯ
+                    </a>
+
+                    <div class="dropdown-menu" id="appointments-dropdown" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="/appointment/pending"><i class="fa fa-plus-circle" aria-hidden="true"></i>Предстоящи</a>
+                        <a class="dropdown-item" href="/appointment/completed"><i class="fa fa-check" aria-hidden="true"></i>Отминали</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                        <i class="fa fa-hospital-o" aria-hidden="true"></i>ИЗСЛЕДВАНИЯ
+                    </a>
+
+                    <div class="dropdown-menu" id="labs-dropdown" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="/lab/pending"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Незавършени</a>
+                        <a class="dropdown-item" href="/lab/completed"><i class="fa fa-check-square-o" aria-hidden="true"></i>Завършени</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                        <i class="fa fa-universal-access" aria-hidden="true"></i>РЕНГТЕН
+                    </a>
+
+                    <div class="dropdown-menu" id="labs-dropdown" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="/imaging/pending"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Незавършени</a>
+                        <a class="dropdown-item" href="/imaging/completed"><i class="fa fa-check-square-o" aria-hidden="true"></i>Завършени</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user-md" aria-hidden="true"></i>ПЕРСОНАЛ
+                    </a>
+
+                    <div class="dropdown-menu" id="patients-dropdown" aria-labelledby="dropdownMenuLink">
+                        <% if(!user.patient && user.employee.role == "administrator") { %>
+                            <a class="dropdown-item" href="/employee/add-new"><i class="fa fa-plus" aria-hidden="true"></i>Добави нов</a>
+                            <% } %>
+                                <a class="dropdown-item" href="/employee"><i class="fa fa-users" aria-hidden="true"></i>Всички</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="dashboard">
+        <% include bar.ejs %>
+            <div class="panels">
+                <div class="container-fluid">
+                    <div class="offset-md-1 col-md-10 col-sm-12">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Нов пациент
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#importing-modal" style="float:right;">Импортиране</button>
+                                </h4>
+                                <p class="category" style="display:inline">Нов пациент</p>
+                            </div>
+                            <div class="content">
+                                <form action="/patient" method="post" id="addPatientForm" enctype="multipart/form-data">
+                                    <div class="form-group first-hidden-group">
+                                        <label for="first_name">Собствено име</label>
+                                        <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Собствено име" required>
+                                    </div>
+                                    <div class="form-group first-hidden-group">
+                                        <label for="middle_name">Презиме</label>
+                                        <input type="text" class="form-control" id="middle_name" name="middle_name" placeholder="Презиме">
+                                    </div>
+                                    <div class="form-group first-hidden-group">
+                                        <label for="last_name">Фамилия</label>
+                                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Фамилия" required>
+                                    </div>
+                                    <div class="form-group first-hidden-group">
+                                        <label for="sex">Пол</label>
+                                        <select class="form-control" id="sex" name="sex">
+                                                <option>Мъж</option>
+                                                <option>Жена</option>
+                                            </select>
+                                    </div>
+                                    <div class="form-group first-hidden-group">
+                                        <label for="date_of_birth">Дата на раждане</label>
+                                        <input class="form-control" type="date" value="2011-08-19" id="date_of_birth" name="date_of_birth">
+                                    </div>
+                                    <div class="form-group second-hidden-group">
+                                        <label for="place_of_birth">Място на раждане</label>
+                                        <input type="text" class="form-control" id="place_of_birth" name="place_of_birth" placeholder="Място на раждане">
+                                    </div>
+                                    <div class="form-group second-hidden-group">
+                                        <label for="occupation">Професия</label>
+                                        <input type="text" class="form-control" id="occupation" name="occupation" placeholder="Професия">
+                                    </div>
+                                    <div class="form-group second-hidden-group">
+                                        <label for="status">Състояние</label>
+                                        <input type="text" class="form-control" id="status" name="status" placeholder="Състояние">
+                                    </div>
+                                    <div class="form-group second-hidden-group">
+                                        <label for="blood_type">Кръвна група</label>
+                                        <select class="form-control" id="blood_type" name="blood_type">
+                                                <option>0</option>
+                                                <option>A+</option>
+                                                <option>A-</option>
+                                                <option>B+</option>
+                                                <option>B-</option>
+                                                <option>AB</option>
+                                            </select>
+                                    </div>
+                                    <div class="form-group second-hidden-group">
+                                        <label for="department">Отделение</label>
+                                        <select class="form-control" id="department" name="department">
+                                                <option>Кардиология</option>
+                                                <option>Дерматология</option>
+                                                <option>Урология</option>
+                                                <option>Психиатрия</option>
+                                                <option>Неврология</option>
+                                                <option>Психиатрия</option>
+                                                <option>Хирургия</option>
+                                                <option>Гинекология</option>
+                                                <option>Педиатрия</option>
+                                                <option>Спешно отделение</option>
+                                                <option>Инфекциозни болести</option>
+                                                <option>Нефрология</option>
+                                                <option>Ортопедия</option>
+                                                <option>Гастроентерология</option>
+                                                <option>Токсикология</option>
+                                            </select>
+                                    </div>
+                                    <div class="form-group third-hidden-group">
+                                        <label for="religion">Религия</label>
+                                        <input type="text" class="form-control" id="status" name="religion" placeholder="Религия">
+                                    </div>
+                                    <div class="form-group third-hidden-group">
+                                        <label for="phone">Телефон</label>
+                                        <input type="text" class="form-control" id="phone" name="phone" placeholder="Телефон">
+                                    </div>
+                                    <div class="form-group third-hidden-group">
+                                        <label for="adress">Адрес</label>
+                                        <input type="text" class="form-control" id="address" name="address" placeholder="Адрес">
+                                    </div>
+                                    <div class="form-group third-hidden-group">
+                                        <label for="adress">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                                    </div>
+                                    <div class="form-group third-hidden-group">
+                                        <label for="adress">ЕГН</label>
+                                        <input type="text" class="form-control" id="egn" name="egn" placeholder="ЕГН" maxlength="10" pattern=".{10,10}" required>
+                                    </div>
+                                    <div class="form-group fourth-hidden-group">
+                                        <label for="password">Парола</label>
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Парола" required>
+                                    </div>
+                                    <div class="form-group fourth-hidden-group">
+                                        <label for="photo">Снимка</label>
+                                        <input type="file" class="form-control" id="photo" name="photo" placeholder="Снимка">
+                                    </div>
+                                    <div class="form-group fourth-hidden-group">
+                                        <label>
+                                                <input type="checkbox" name="admitted" id="admitted" checked>  Хоспитализиран
+                                            </label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary fourth-hidden-group">Потвърди</button>
+                                    <button class="btn btn-primary third-hidden-group" style=" font-size: 2rem; width: 100px; height: 50px; margin-bottom: 5px; float:right;">Напред</button>
+                                    <button class="btn btn-primary second-hidden-group" style=" font-size: 2rem; width: 100px; height: 50px; margin-bottom: 5px; float:right;">Напред</button>
+                                    <button class="btn btn-primary first-hidden-group" style=" font-size: 2rem; width: 100px; height: 50px; margin-bottom: 5px; float:right;">Напред</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal fade" id="importing-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="modal_label">Импортиране на пациент</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="importing-form" method="post" action="/patient/import" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="photo">Изберете JSON файл</label>
+                                    <input type="file" accept=".json" class="form-control" id="json" name="json" placeholder="Изберете JSON файл">
+                                </div>
+                                <button type="submit" class="btn btn-primary appointment-modal-submit" style="width:auto;">Импортиране</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+    <!-- JS
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <script src="/js/jquery/jquery-1.12.2.min.js"></script>
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/nav.js"></script>
+    <script src="/js/bootstrap-notify.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+    <script>
+        var userId = "<%=user._id%>";
+    </script>
+    <script src='/js/sockets.js'></script>
+    <script src='/js/add-patient.js'></script>
+    <script src='/js/main.js'></script>
+    <!-- End Document
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+
+</html>

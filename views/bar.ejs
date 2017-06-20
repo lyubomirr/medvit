@@ -1,0 +1,26 @@
+<div class="tools">
+    <ul>
+        <div class="float-left">
+          <% if(!user.patient) { %>
+            <li class="hamburger"><i class="fa fa-bars" aria-hidden="true"></i> </li>
+          <% } %>
+            <% if(user.employee) { %>
+                <li class="avatar"><img src="<%=user.employee.photo%>">
+                    <%=user.employee.firstName%>
+                        <%=user.employee.lastName%>
+                </li>
+                <% } else { %>
+                    <li class="avatar"><img src="<%=user.patient.photo%>">
+                        <%=user.patient.first_name%>
+                            <%=user.patient.last_name%>
+                    </li>
+                    <% }  %>
+
+
+        </div>
+        <div class="float-right">
+            <li><i class="fa fa-globe"></i></li>
+            <li><a href="/auth/logout">Exit</a></li>
+        </div>
+    </ul>
+</div>

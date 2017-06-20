@@ -1,0 +1,1176 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,600&subset=cyrillic');
+html {
+    height: 100%;
+    font-size: 8px;
+    box-sizing: content-box;
+}
+
+
+/* f2e9e1 */
+
+body {
+    background-color: #F8F8F8;
+    position: relative;
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+}
+
+.page-header {
+    font-size: 3.6rem;
+    font-weight: 500;
+}
+
+button {
+    white-space: normal !important;
+}
+
+[data-notify="container"] {
+    font-size: 1.8rem;
+}
+
+
+/* Navigation Menu */
+
+body>.nav {
+    height: 6rem;
+    background-color: #094F71;
+    width: 100%;
+    position: fixed;
+    z-index: 100;
+    opacity: 0.95;
+    vertical-align: middle;
+}
+
+body>.nav ul {
+    padding: 0;
+    margin: 0 auto;
+    width: 65rem;
+    height: 6rem;
+}
+
+body>.nav li {
+    display: inline;
+    float: left;
+}
+
+body>.nav a {
+    color: #fff;
+    display: inline-block;
+    width: 20rem;
+    text-align: center;
+    text-decoration: none;
+    line-height: 6rem;
+}
+
+body>.nav a:visited {
+    color: white;
+}
+
+body>.nav a:active {
+    color: #8c99a4;
+}
+
+body>.nav li a:hover {
+    background-color: #0098DB;
+    color: white;
+}
+
+body>.nav li:nth-child(2) {
+    vertical-align: middle;
+    line-height: 9.5rem;
+    width: 25rem;
+    text-align: center;
+}
+
+body>.nav li:nth-child(2) a:hover {
+    background-color: transparent;
+    color: white;
+}
+
+body>.nav a i {
+    color: #d70026;
+}
+
+.nav a#pull {
+    display: none;
+}
+
+#logo-img {
+    height: 4.5rem;
+}
+
+.filler {
+    height: 5rem;
+}
+
+.dropdown-backdrop {
+    position: static !important;
+}
+
+
+/* End of navigation menu */
+
+
+/* Clearfix */
+
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+
+/* End of Clearfix */
+
+
+/* Splash Screen (video) */
+
+.landing {
+    padding-top: 10rem;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: cover;
+    height: 55rem;
+    margin-bottom: 3rem;
+}
+
+.vegas-wrapper>div {
+    position: absolute;
+    bottom: 0;
+    height: 8rem;
+    background-color: rgba(147, 51, 75, 0.0);
+    width: 100%;
+}
+
+.vegas-wrapper>div>h4 {
+    color: white;
+    line-height: 8rem;
+    vertical-align: middle;
+    margin-left: 2rem;
+}
+
+
+/* End of Splash Screen (video) */
+
+
+/* Main container */
+
+.main {
+    min-height: 100%;
+    margin: 0 auto -55rem;
+}
+
+.main:after {
+    content: "";
+    display: block;
+}
+
+#about-app {
+    margin-top: 22rem;
+}
+
+
+/* End of main container */
+
+.container {
+    max-width: 100% !important;
+}
+
+#main-info {
+    padding: 1rem 10rem 8rem 10rem;
+}
+
+.column {
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.post {
+    line-height: 1.2;
+    letter-spacing: -.1rem;
+}
+
+.post .post-title {
+    color: #331329;
+    font-weight: 600;
+    font-size: 2.5rem;
+}
+
+.post .post-title span {
+    color: #8c99a4;
+    font-weight: 400;
+    font-size: 2rem;
+    border-right: 1px solid #C0C0C0;
+    padding-right: 1rem;
+    margin-right: 1rem;
+}
+
+.post .post-content {
+    font-size: 2rem;
+    font-weight: 300;
+    text-align: justify;
+}
+
+.post .read-more {
+    color: black;
+    text-decoration: none;
+    font-size: 2rem;
+    font-weight: 400;
+    float: right;
+}
+
+.post-content i {
+    float: left;
+    font-size: 10rem;
+    color: #094F71;
+    margin-right: 2rem;
+    padding-top: 0;
+}
+
+.post #laptop {
+    background-image: url('/images/laptop.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    height: 60rem;
+    margin-top: 10rem;
+}
+
+.post-content span {
+    line-height: 1.6;
+}
+
+
+/* YouTube Video Wrapper */
+
+.videoWrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    /* 16:9 */
+    padding-top: 25px;
+    height: 0;
+}
+
+.videoWrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
+/* End of YouTube Video Wrapper */
+
+
+/* Footer */
+
+body>.footer {
+    height: 55rem;
+    margin-top: 0;
+    width: 100%;
+    background-color: #555;
+}
+
+.footer,
+.main:after {
+    height: 55rem;
+}
+
+.social {
+    display: block;
+    font-size: 3rem;
+}
+
+.footer .social {
+    text-align: center;
+    list-style-type: none;
+}
+
+.social li {
+    display: inline-block;
+}
+
+.social li a {
+    display: inline-block;
+    color: white;
+    width: 50px;
+    height: 43px;
+    padding-top: 7px;
+    border-radius: 50%;
+    transition: 0.3s ease;
+    -webkit-transition: 0.3s ease;
+}
+
+.social li a:hover {
+    background-color: white !important;
+}
+
+.social li a#facebook:hover {
+    color: #3B5998;
+}
+
+.social li a#twitter:hover {
+    color: #1DA1F2;
+}
+
+.social li a#linkedin:hover {
+    color: #0077B5;
+}
+
+.social li a#instagram:hover {
+    color: black;
+}
+
+.social li a#google-plus:hover {
+    color: #DB4437;
+}
+
+.info-option {
+    text-align: center;
+    color: white;
+    font-size: 4rem;
+    font-weight: 200;
+    margin-top: 13rem;
+    margin-bottom: 5rem;
+}
+
+.info-option p {
+    font-size: 2rem;
+}
+
+.info-option i {
+    font-size: 8rem;
+}
+
+@media only screen and (max-width: 550px) {
+    body>.footer {
+        height: 140rem;
+    }
+}
+
+
+/* End of Footer */
+
+
+/* Login */
+
+.login {
+    padding: 7rem 10rem 7rem 15rem;
+}
+
+.login input {
+    margin-bottom: 1.2rem;
+}
+
+.login input[type='submit'] {
+    background-color: #0098DB;
+    border-color: #0098DB;
+}
+
+.login input[type='submit']:hover {
+    background-color: #094F71;
+    border-color: #094F71;
+}
+
+.login .login-info {
+    background-color: firebrick;
+    color: white;
+    display: inline-block;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    height: 3rem;
+    margin-bottom: 1.2rem;
+    border-radius: 4px;
+    line-height: 3rem;
+    vertical-align: middle;
+}
+
+
+/* End of login */
+
+
+/* Sidebar */
+
+.sidebar {
+    position: fixed;
+    height: 100%;
+    width: 26rem;
+    background: linear-gradient( rgba(0, 70, 104, 0.85), rgba(0, 70, 104, 0.85)), url(../images/sidebar-splash.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 70%;
+    z-index: 4;
+    top: 0;
+    left: 0rem;
+    transition: all 0.5s;
+}
+
+.sidebar .dropdown {
+    display: inline-block;
+    height: auto;
+}
+
+.sidebar.hidden {
+    left: -26rem;
+    transition: all 0.5s;
+}
+
+.sidebar .logo {
+    padding: 10px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    height: 4rem;
+    text-align: center;
+}
+
+.sidebar .menu {
+    margin-top: 2rem;
+    list-style: none;
+    padding-left: 0;
+}
+
+.sidebar .logo a {
+    text-transform: uppercase;
+    padding: 30px 0;
+    color: #FFF;
+    line-height: 6px;
+    text-decoration: none;
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 4rem;
+    vertical-align: middle;
+}
+
+.sidebar .menu .active a {
+    background-color: rgba(255, 255, 255, 0.20);
+}
+
+.sidebar .menu a.dropdown-item.active {
+    background-color: rgba(255, 255, 255, 0.20);
+}
+
+.sidebar .menu a {
+    margin: 0rem 1.5rem;
+    border-radius: 4px;
+    opacity: 1;
+    padding: 1rem 1.5rem;
+    color: #fff;
+    line-height: 3rem;
+    text-decoration: none;
+    min-width: 20rem;
+    display: inline-block;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.sidebar .menu li:not(.active) a:hover {
+    background-color: rgba(255, 255, 255, 0.10);
+}
+
+.sidebar .menu a i {
+    font-size: 2.8rem;
+    vertical-align: middle;
+    margin-right: 15px;
+    line-height: 30px;
+    text-align: center;
+}
+
+.sidebar .menu li {
+    margin-bottom: 1rem;
+    display: inline-block;
+}
+
+.sidebar .dropdown-menu {
+    position: relative;
+    z-index: 0;
+    background: transparent;
+    border: none;
+}
+
+.sidebar a.dropdown-item {
+    width: auto;
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin-left: 2.3rem;
+    position: static;
+    z-index: 999;
+}
+
+.sidebar a.dropdown-item i {
+    font-size: 2.0rem;
+}
+
+.sidebar .dropdown-toggle:hover {
+    color: white !important;
+    cursor: pointer;
+}
+
+
+/* End of login */
+
+
+/* Dashboard */
+
+.dashboard {
+    transition: all 0.5s;
+    margin-left: 26rem;
+}
+
+.dashboard.hidden {
+    margin-left: 0rem;
+    transition: all 0.5s;
+}
+
+.dashboard .tools {
+    height: 6rem;
+    border: 1px solid #e7e7e7;
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+.dashboard .tools ul {
+    list-style: none;
+    margin-right: 5rem;
+}
+
+.dashboard .tools li {
+    display: inline-block;
+    font-size: 2rem;
+    font-weight: 400;
+    color: #777;
+    line-height: 6rem;
+    vertical-align: middle;
+    width: 5rem;
+    height: 5rem;
+    text-align: center;
+}
+
+.dashboard .tools li a {
+    color: #777;
+    text-decoration: none;
+    font-size: 1.6rem;
+}
+
+.dashboard .tools .avatar {
+    width: auto;
+}
+
+.dashboard .tools .hamburger {
+    margin-left: -2.5rem;
+    margin-right: 3rem;
+    cursor: pointer;
+}
+
+.dashboard .tools .avatar img {
+    width: 4.5rem;
+    height: 4.5rem;
+    padding-top: 0.5rem;
+    float: left;
+    margin-right: 3rem;
+}
+
+.feed {
+    padding-left: 5px;
+    padding-right: 0px;
+}
+
+.feed .card {
+    padding-bottom: 15px;
+}
+
+.feed .posts {
+    height: auto;
+    max-height: 240px;
+    position: relative;
+}
+
+.feed-form {
+    padding: 20px 20px 0px 20px;
+}
+
+.feed-form button {
+    height: 30px !important;
+    font-size: 1.5rem !important;
+    width: 150px !important;
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+}
+
+.feed-form button[type='submit'] {
+    margin-right: 5px;
+}
+
+.feed .single-post {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.feed .single-post hr {
+    display: inline-block;
+    width: 100%;
+}
+
+.feed .single-post img {
+    height: 65px;
+    width: 65px;
+    border: 2px solid lightgrey;
+}
+
+.feed .single-post .post-info {
+    font-size: 1.5rem;
+    color: gray;
+    float: right;
+}
+
+.feed .single-post .single-post-content {
+    padding: 0;
+}
+
+.feed .single-post .single-post-content p {
+    font-size: 1.8rem;
+    text-align: justify;
+}
+
+.feed .single-post #no-posts {
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.feed .single-post .single-post-content p .delete-post {
+    float: right;
+    font-size: 2.5rem;
+    color: #c9302c;
+    display: inline-block;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.feed .feed-poster {
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.feed-form-buttons {
+    display: flex;
+    justify-content: center;
+}
+.hospital-info .card{
+  height: 412px;
+}
+.hospital-info .card h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  padding: 10px;
+  color: #004A68;;
+}
+.hospital-info .hospital-address {
+  text-align: center;
+  font-size: 1.8rem;
+  color: #666;
+}
+.hospital-info #hospital-map {
+  height: 270px;
+  background-color: grey;
+  margin: 20px 0px 0px 0px;
+}
+
+
+/* End of Dashboard */
+
+
+/* Scrollbar Always Visible */
+
+
+/*
+.ps-scrollbar-y-rail {
+    opacity: 0.6 !important;
+}
+*/
+
+
+/* End of scrollbar */
+
+
+/* Helpers */
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.center-block {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+
+/* End of helpers */
+
+
+/* Panels */
+
+.panels {
+    margin-top: 3rem;
+    margin-left: 1.5rem;
+    min-height: calc(100% - 26rem);
+    box-sizing: border-box;
+}
+
+
+/* End of panels */
+
+
+/* Cards  */
+
+.card {
+    border-radius: 0.3rem;
+    background-color: #FFFFFF;
+    margin-bottom: 3rem;
+}
+
+.card .content {
+    padding: 1.5rem 1.5rem 1rem 1.5rem;
+}
+
+.card .header {
+    padding: 1.5rem 1.5rem 0;
+}
+
+.card .header button {
+    font-size: 1.8rem;
+}
+
+.card .category,
+.card label {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #9A9A9A;
+    margin-bottom: 0px;
+}
+
+.card .title {
+    margin: 0;
+    color: #333333;
+    font-weight: 300;
+    font-size: 2.2rem;
+    line-height: 30px;
+}
+
+.card .footer {
+    padding: 0;
+    background-color: transparent;
+    line-height: 3rem;
+    height: 100%;
+}
+
+.card .footer hr {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.card .stats {
+    color: #a9a9a9;
+    font-size: 1.5rem;
+}
+
+.card .footer div {
+    display: inline-block;
+}
+
+
+/* End of Cards */
+
+
+/* Patients */
+
+.patients thead {}
+
+.patients thead th {
+    font-size: 1.8rem;
+    background-color: #004A68;
+}
+
+.patients thead th:last-child {
+    text-align: center;
+}
+
+.patients td {
+    font-size: 1.8rem;
+    cursor: pointer;
+    vertical-align: middle !important;
+}
+
+.patients td:last-child {
+    text-align: center;
+}
+
+.patients td button {
+    font-size: 2rem;
+    margin-right: 5px;
+}
+
+
+/* End of Patients */
+
+
+/* Pagination */
+
+.pagination a {
+    color: black;
+    font-size: 2rem;
+}
+
+.pagination .active a {
+    background-color: #004A68 !important;
+    border-color: #004A68 !important;
+}
+
+
+/* End of Pagination*/
+
+
+/* Modal Patients*/
+
+#addNewPatient form {
+    font-size: 2.5rem;
+}
+
+#addNewPatient form input {
+    font-size: 2.0rem;
+}
+
+#addNewPatient form select {
+    font-size: 2.0rem;
+    height: 3.85rem;
+}
+
+#addNewPatient button {
+    font-size: 1.8rem;
+}
+
+.modal-title {
+    font-size: 2.5rem;
+}
+
+
+/*End of modal*/
+
+
+/* profile page */
+
+.card {
+    height: auto;
+}
+
+.profile-page .personal-info {
+    margin: 0px;
+    margin-right: -15px;
+}
+
+.personal-info img {
+    display: block;
+    margin: 0 auto;
+    width: 200px;
+    height: 200px;
+}
+
+.personal-info {
+    padding-bottom: 15px;
+    margin-bottom: 5px !important;
+}
+
+.personal-info table {
+    font-size: 1.5rem;
+    margin-top: 10px;
+}
+
+.personal-info i {
+    color: #004A68;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.personal-info .menu-item {
+    color: #666;
+    font-weight: 500;
+}
+
+.personal-info .menu-value {
+    color: #004A68;
+    font-weight: 500;
+}
+
+.personal-info .title {
+    font-size: 3.5rem;
+    font-weight: 400;
+}
+
+.info-tables {
+    margin-left: -20px;
+}
+
+.info-tables tr:last-child {
+    border-bottom: 1px solid #eceeef;
+}
+
+.horizontal .nav a {
+    width: 13.5rem;
+    font-size: 1.5rem;
+    background-color: white;
+}
+
+.general-info {
+    font-size: 2rem;
+}
+
+.card .title {
+    font-size: 3rem;
+}
+
+.info-container {
+    padding: 20px;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.tab-pane h3 {
+    font-size: 3rem;
+}
+
+#allergies .list-group {
+    margin-top: 10px;
+}
+
+#allergies .list-group button {
+    position: absolute;
+    display: inline-block;
+    right: 8px;
+    bottom: 8px;
+}
+
+.patient-tabs .nav-tabs {
+    display: inline-block;
+}
+
+.patient-tabs .nav-tabs .nav-item {
+    display: inline-block;
+}
+
+.profile-add-button {
+    margin-right: 15px;
+    font-size: 1.5rem;
+}
+
+.modal-body form {
+    padding-right: 15px;
+}
+
+.modal-header button {
+    font-size: 3rem;
+}
+
+.info-container h3 {
+    display: inline-block;
+}
+
+.no-action {
+    font-size: 2.5rem !important;
+    text-align: center;
+    display: inline-block;
+    color: #d70026;
+}
+
+#seventyfive {
+    font-size: 100px;
+    font-weight: bold;
+    margin-left: 0px;
+    display: inline-block;
+}
+
+#blood-pressure-img {
+    display: inline-block;
+    width: 50px;
+    margin-left: -5px;
+}
+
+#heartrate,
+#blood-pressure {
+    font-size: 20px;
+    float: right;
+    margin-right: 5rem;
+}
+
+#blood-pressure {
+    font-size: 18px;
+}
+
+#pressure {
+    margin-top: 50px;
+    margin-bottom: 10px;
+}
+
+.nav-item {
+    word-wrap: break-word;
+}
+
+@media only screen and (max-width: 992px) {
+    .info-tables {
+        margin-left: 0px;
+    }
+}
+
+
+/* end of profile page */
+
+
+/* forms config */
+
+form .form-control {
+    font-size: 2.1rem;
+}
+
+#sex,
+#department,
+#blood_type,
+#role {
+    height: 3.85rem !important;
+}
+
+.form-group label {
+    font-size: 2.3rem;
+    color: black;
+}
+
+form button[type='submit'] {
+    margin-top: 10px;
+    font-size: 2.0rem;
+    width: 80px;
+    height: 40px;
+    margin-bottom: 10px;
+}
+
+#editPatientForm button[type='submit'],
+#addPatientForm button[type='submit'] {
+    width: 100px;
+    height: 50px;
+    margin-bottom: 5px;
+}
+
+
+/*end of form config */
+
+
+/* Table lists */
+
+#department-menu {
+    display: inline-block;
+    width: 100%;
+}
+
+#department-menu button {
+    width: 100%;
+}
+
+#department-menu .dropdown-item {
+    font-size: 1.8rem;
+}
+
+.search-menu {
+    margin-top: 10px;
+}
+
+.search-menu button.pull-right {
+    width: 100%;
+}
+
+.search-menu form {
+    width: 100%;
+    display: inline-block;
+}
+
+.search-menu .search-bar {
+    width: 100%;
+}
+
+
+/* Dashboard */
+
+.dashboard .dashboard-card {
+    padding-right: 0px;
+    padding-left: 5px;
+}
+
+.dashboard #last-card {
+    padding-right: 15px;
+}
+
+.dashboard-list p {
+    font-size: 1.7rem;
+    line-height: 4rem;
+}
+
+.dashboard-list a {
+    color: white;
+    transition: 0.2s ease;
+}
+
+.dashboard-list a:hover {
+    color: #004A68;
+}
+
+.dashboard-list i {
+    font-size: 3rem;
+    margin-right: 5px;
+}
+
+.dashboard-list span.value {
+    display: inline-block;
+    font-size: 4rem;
+    float: right;
+}
+
+.dashboard-card .card {
+    border: 0;
+    border-radius: 0;
+    color: white;
+}
+
+.dashboard-card .card .title,
+.dashboard-card .card .category {
+    color: white;
+}
+
+.dashboard-card hr {
+    background-color: white;
+}
+
+#patients-card {
+    background-color: #FF5554;
+}
+
+#labs-card {
+    background-color: #67C3EF;
+}
+
+#imaging-card {
+    background-color: #FABB3C;
+}
+
+#appointments-card {
+    background-color: #79C447;
+}
+
+
+/* End of dashboard */

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+    <meta charset="utf-8">
+    <title>Medvit - Medcial software for doctors, nurses, students and patients. | LOG IN</title>
+    <meta name="description" content="">
+    <meta name="author" content="Antoan Dimitrov and Lyubomir Ruzhinski">
+    <!-- Mobile Specific Metas
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#094F71" />
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#094F71" />
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#094F71">
+    <!-- FONTS
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <!-- CSS
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="stylesheet" href="css/skeleton.css">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/media-queries.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <!-- Favicon
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+</head>
+
+<body>
+    <!-- Primary Page Layout
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <div class="nav clearfix">
+        <a href="#" id="pull"><i class="fa fa-bars" aria-hidden="true"></i> <img src='/images/logo.png' id="logo-img" /></a>
+        <ul class="clearfix">
+            <li><a href="/login">ВХОД</a></li>
+            <li>
+                <a href="/"><img src='/images/logo.png' id="logo-img" /></a>
+            </li>
+            <li><a href="/#main-info">ИНФОРМАЦИЯ</a></li>
+        </ul>
+    </div>
+
+    <div class="filler">
+    </div>
+
+    <div class="main">
+        <div class="row login">
+            <div class="two-half column">
+                <h1 class="page-header">Вход</h1>
+                <form method="post" action="/auth/signin">
+                    <div class="row">
+                        <div class="six columns">
+                            <label for="username">Потребителско име:</label>
+                            <input class="u-full-width" type="text" placeholder="Username" id="username" name="username" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="six columns">
+                            <label for="password">Парола:</label>
+                            <input class="u-full-width" type="password" placeholder="Password" id="password" name="password" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="six columns">
+                            <% if (messages.info) { %>
+                                <div class="login-info">
+                                    <i class="fa fa-info" aria-hidden="true" style="padding-right:1rem"></i>
+                                    <%=messages.info%>
+                                </div>
+                                <% } %>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="row">
+                        <div class="two columns">
+                            <input class="button-primary" type="submit" id="loginButton" value="Вход">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class='one-third column info-option'>
+            <i class="fa fa-map-marker" aria-hidden="true"></i>
+            <div class='twelve columns'>
+                Адрес
+                <p>
+                    гр. Благоевград ул. Марица 4
+                </p>
+            </div>
+        </div>
+        <div class='one-third column info-option'>
+            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+            <div class='twelve columns'>
+                Ел. поща
+                <p>
+                    support@medvit.me
+                    <br /> administrator@medvit.me
+                </p>
+            </div>
+        </div>
+        <div class='one-third column info-option'>
+            <i class="fa fa-phone" aria-hidden="true"></i>
+            <div class='twelve columns'>
+                Тел. за връзка
+                <p>
+                    +359897774073
+                    <br /> +359883646303
+                </p>
+            </div>
+        </div>
+        <div class='twelve columns'>
+            <ul class='social'>
+                <li>
+                    <a href='/' id="facebook">
+                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href='/' id="twitter">
+                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/" id="linkedin">
+                        <i class="fa fa-linkedin" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href='' id="instagram">
+                        <i class="fa fa-instagram" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href='' id="google-plus">
+                        <i class="fa fa-google-plus" aria-hidden="true"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- JS
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <script src="js/jquery/jquery-1.12.2.min.js"></script>
+
+    <script>
+        if (screen && screen.width < 480) {
+            document.write('<script type="text/javascript" src="/js/nav.js"><\/script>');
+        }
+    </script>
+
+
+    <!-- End Document
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+
+</body>
+
+</html>

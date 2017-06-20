@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+
+    <meta charset="utf-8">
+    <title>Medvit - Medcial software for doctors, nurses, students and patients. |</title>
+    <meta name="description" content="">
+    <meta name="author" content="Antoan Dimitrov">
+    <!-- Mobile Specific Metas
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- FONTS
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <!-- CSS
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/media-queries.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <!-- Favicon
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+
+</head>
+
+<body>
+
+    <!-- Primary Page Layout
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <div class="sidebar">
+        <div class="logo">
+            <a href="/"><img src='/images/logo.png' id="logo-img" /></a>
+        </div>
+        <ul class="menu">
+            <li><a href="/dashboard"><i class="fa fa-bar-chart" aria-hidden="true"></i>НАЧАЛО</a></li>
+            <li>
+                <div class="dropdown show">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>ПАЦИЕНТИ
+                    </a>
+
+                    <div class="dropdown-menu" id="patients-dropdown" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="/patient/add-new"><i class="fa fa-plus" aria-hidden="true"></i>Добави нов</a>
+                        <a class="dropdown-item" href="/patient/admitted"><i class="fa fa-hospital-o" aria-hidden="true"></i>Приети пациенти</a>
+                        <a class="dropdown-item" href="/patient/other"><i class="fa fa-ambulance" aria-hidden="true"></i>Други пациенти</a>
+                        <a class="dropdown-item" href="/patient"><i class="fa fa-users" aria-hidden="true"></i>Всички пациенти</a>
+                    </div>
+                </div>
+            </li>
+            <!-- <li><a href="/inventory"><i class="fa fa-medkit" aria-hidden="true"></i>ИНВЕНТАР</a></li> -->
+            <li>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                        <i class="fa fa-handshake-o" aria-hidden="true"></i>НАЗНАЧЕНИЯ
+                    </a>
+
+                    <div class="dropdown-menu" id="appointments-dropdown" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="/appointment/pending"><i class="fa fa-plus-circle" aria-hidden="true"></i>Предстоящи</a>
+                        <a class="dropdown-item" href="/appointment/completed"><i class="fa fa-check" aria-hidden="true"></i>Отминали</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                        <i class="fa fa-hospital-o" aria-hidden="true"></i>ИЗСЛЕДВАНИЯ
+                    </a>
+
+                    <div class="dropdown-menu" id="labs-dropdown" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="/lab/pending"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Незавършени</a>
+                        <a class="dropdown-item" href="/lab/completed"><i class="fa fa-check-square-o" aria-hidden="true"></i>Завършени</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                        <i class="fa fa-universal-access" aria-hidden="true"></i>РЕНГТЕН
+                    </a>
+
+                    <div class="dropdown-menu" id="labs-dropdown" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="/imaging/pending"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Незавършени</a>
+                        <a class="dropdown-item" href="/imaging/completed"><i class="fa fa-check-square-o" aria-hidden="true"></i>Завършени</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user-md" aria-hidden="true"></i>ПЕРСОНАЛ
+                    </a>
+
+                    <div class="dropdown-menu" id="patients-dropdown" aria-labelledby="dropdownMenuLink">
+                        <% if(!user.patient && user.employee.role == "administrator") { %>
+                            <a class="dropdown-item" href="/employee/add-new"><i class="fa fa-plus" aria-hidden="true"></i>Добави нов</a>
+                            <% } %>
+                                <a class="dropdown-item" href="/employee"><i class="fa fa-users" aria-hidden="true"></i>Всички</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="dashboard">
+        <% include bar.ejs %>
+            <div class="panels">
+                <div class="container-fluid">
+                    <div class="offset-md-1 col-md-10 col-sm-12">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Редактиране на пациент</h4>
+                                <p class="category" style="display:inline">
+                                    <%=patient.first_name %>
+                                        <%=patient.last_name %>
+                                </p>
+                            </div>
+                            <div class="content">
+                                <form action="/patient/edit/<%=patient.id%>" method="post" id="editPatientForm" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label for="first_name">Собствено име</label>
+                                        <input type="text" class="form-control" id="first_name" name="first_name" value="<%=patient.first_name %>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="middle_name">Презиме</label>
+                                        <input type="text" class="form-control" id="middle_name" name="middle_name" value="<%=patient.middle_name %>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="last_name">Фамилия</label>
+                                        <input type="text" class="form-control" id="last_name" name="last_name" value="<%=patient.last_name %>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sex">Пол</label>
+                                        <select class="form-control" id="sex" name="sex">
+                                                <option <%if(patient.sex=='Мъж'){%>selected<%}%>>Мъж</option>
+                                                <option <%if(patient.sex=='Жена'){%>selected<%}%>>Жена</option>
+                                            </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="date_of_birth">Дата на раждане</label>
+                                        <input class="form-control" type="date" value="<%=patient.date_of_birth %>" id="date_of_birth" name="date_of_birth">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="place_of_birth">Място на раждане</label>
+                                        <input type="text" class="form-control" id="place_of_birth" name="place_of_birth" value="<%=patient.place_of_birth %>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="occupation">Професия</label>
+                                        <input type="text" class="form-control" id="occupation" name="occupation" value="<%=patient.occupation %>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="status">Състояние</label>
+                                        <input type="text" class="form-control" id="status" name="status" value="<%=patient.status%>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="blood_type">Кръвна група</label>
+                                        <select class="form-control" id="blood_type" name="blood_type">
+                                                <option <%if(patient.blood_type=='0'){%>selected<%} else%> >0</option>
+                                                <option <%if(patient.blood_type=='A+'){%>selected<%} else%> >A+</option>
+                                                <option <%if(patient.blood_type=='A-'){%>selected<%} else%> >A-</option>
+                                                <option <%if(patient.blood_type=='B+'){%>selected<%} else%> >B+</option>
+                                                <option <%if(patient.blood_type=='B-'){%>selected<%} else%> >B-</option>
+                                                <option <%if(patient.blood_type=='AB'){%>selected<%}%> >AB</option>
+                                            </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="department">Отделение</label>
+                                        <select class="form-control" id="department" name="department">
+                                                <option <%if(patient.department=='Кардиология'){%>selected<%} else%>>Кардиология</option>
+                                                <option <%if(patient.department=='Дерматология'){%>selected<%} else%>>Дерматология</option>
+                                                <option <%if(patient.department=='Урология'){%>selected<%} else%>>Урология</option>
+                                                <option <%if(patient.department=='Психиатрия'){%>selected<%} else%>>Психиатрия</option>
+                                                <option <%if(patient.department=='Неврология'){%>selected<%} else%>>Неврология</option>
+                                                <option <%if(patient.department=='Психиатрия'){%>selected<%} else%>>Психиатрия</option>
+                                                <option <%if(patient.department=='Хирургия'){%>selected<%} else%>>Хирургия</option>
+                                                <option <%if(patient.department=='Гинекология'){%>selected<%} else%>>Гинекология</option>
+                                                <option <%if(patient.department=='Педиатрия'){%>selected<%} else%>>Педиатрия</option>
+                                                <option <%if(patient.department=='Спешно отделение'){%>selected<%} else%>>Спешно отделение</option>
+                                                <option <%if(patient.department=='Инфекциозни болести'){%>selected<%} else%>>Инфекциозни болести</option>
+                                                <option <%if(patient.department=='Нефрология'){%>selected<%} else%>>Нефрология</option>
+                                                <option <%if(patient.department=='Ортопедия'){%>selected<%} else%>>Ортопедия</option>
+                                                <option <%if(patient.department=='Гастроентерология'){%>selected<%} else%>>Гастроентерология</option>
+                                                <option <%if(patient.department=='Токсикология'){%>selected<%}%>>Токсикология</option>
+                                            </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="religion">Религия</label>
+                                        <input type="text" class="form-control" id="status" name="religion" value="<%=patient.religion%>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone">Телефон</label>
+                                        <input type="text" class="form-control" id="phone" name="phone" value="<%=patient.phone%>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="adress">Адрес</label>
+                                        <input type="text" class="form-control" id="address" name="address" value="<%=patient.address%>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="adress">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" value="<%=patient.email%>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="adress">ЕГН</label>
+                                        <input type="text" class="form-control" id="egn" name="egn" value="<%=patient.egn%>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">Парола</label>
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Парола" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="photo">Снимка</label>
+                                        <input type="file" class="form-control" id="photo" name="photo" placeholder="Снимка">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                                <input type="checkbox" name="admitted" id="admitted" <%if(patient.admitted){%>checked<%}%>>  Хоспитализиран
+                                            </label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Потвърди</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <!-- JS
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <script src="/js/jquery/jquery-1.12.2.min.js"></script>
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/nav.js"></script>
+    <script src="/js/bootstrap-notify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+    <script>
+        var userId = "<%=user._id%>";
+    </script>
+    <script src='/js/sockets.js'></script>
+    <script>
+        $(document).ready(function() {
+            $(".clickable-row td").not(':last-child').click(function() {
+                window.document.location = $(this).data("href");
+            });
+            $('#addPatient').click(function() {
+                $('#addPatientForm').submit();
+            });
+        });
+
+    </script>
+    <script src='/js/main.js'></script>
+    <!-- End Document
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+
+</html>

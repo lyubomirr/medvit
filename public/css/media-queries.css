@@ -1,0 +1,57 @@
+@media screen and (max-width: 1024px) and (orientation: portrait) {
+    .sidebar {
+        left: -26rem;
+    }
+    .sidebar.hidden {
+        left: 0rem;
+        transition: all 0.5s;
+    }
+    .dashboard {
+        margin-left: 0;
+    }
+    .dashboard.hidden {
+        margin-left: 26rem;
+    }
+    .dashboard .dashboard-card {
+        padding-right: 15px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    body>.nav {
+        height: 48px;
+    }
+    body>.nav ul {
+        display: none;
+        width: 100%;
+    }
+    body>.nav ul li {
+        width: 50%;
+        display: inline-block;
+    }
+    .nav a#pull {
+        display: block;
+        height: 6rem;
+        text-indent: 0;
+        padding-left: 0;
+        width: 100%;
+    }
+    body>.nav a img {
+        line-height: 6rem;
+        vertical-align: middle;
+    }
+    .nav a#pull i {
+        color: white;
+        font-size: 4rem;
+        line-height: 6rem;
+        vertical-align: middle;
+        float: left;
+        margin-left: 1rem;
+    }
+    body>.nav li:nth-child(2) {
+        display: none;
+    }
+    #about-app {
+        margin-top: 0rem;
+    }
+}
